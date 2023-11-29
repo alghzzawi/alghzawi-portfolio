@@ -788,25 +788,41 @@
 
 	<script>
 		function sendEmail() {
-			(function(){
-				emailjs.init("51sFJtfRy0Hh-MlXi");
-			})();
-
+			// Initialize EmailJS
+			emailjs.init("51sFJtfRy0Hh-MlXi");
+	
+			// Get form input values
+			var senderName = document.querySelector("#sendername").value;
+			var toEmail = document.querySelector("#to").value;
+			var emailSubject = document.querySelector("#subject").value;
+			var emailMessage = document.querySelector("#message").value;
+	
+			// Check if any of the form fields are empty
+			if (!senderName || !toEmail || !emailSubject || !emailMessage) {
+				alert("Please fill in all required fields.");
+				return;
+			}
+	
+			// Set up parameters for EmailJS
 			var params = {
-				sendername: document.querySelector("#sendername").value,
-				to: document.querySelector("#to").value,
-				subject: document.querySelector("#subject").value,
-				message: document.querySelector("#message").value,
+				sendername: senderName,
+				to: toEmail,
+				subject: emailSubject,
+				message: emailMessage,
 			};
-
+	
 			var serviceID = "service_316rxls";
 			var templateID = "template_0h9213o";
-
+	
+			// Send the email
 			emailjs.send(serviceID, templateID, params)
-			.then( res => {
-				alert("Email Sent Successfully!")
-			})
-			.catch();
+				.then(res => {
+					alert("Email Sent Successfully!");
+				})
+				.catch(error => {
+					console.log("Failed to send email:", error);
+					alert("Failed to send email. Please try again later.");
+				});
 		}
 	</script>
 
